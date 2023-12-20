@@ -8,15 +8,15 @@ on:
 
 jobs:
   build:
-
+    name: Build Docker Images
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 1.8
+    - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
-        java-version: '11'
+        java-version: '17'
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
@@ -32,4 +32,35 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }} 
 
-  # This workflow contains a single job called "build
+  # This workflow contains a single job called "build"
+  deploy:
+    name: Diploy Dev
+    needs: build
+    #if: needs.check-theme-changes.outputs.run_project_a_build == 'true'
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+     
+      - name: Deployment
+
+   #     uses: actions/checkout@v2
+        uses: appleboy/ssh-action@master
+
+        with:
+
+          host: ${{ secrets.SSH_HOST_DEV }}
+
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+        
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+
+          username: ${{ secrets.SSH_USERNAME }}
+          port: ${{ secrets.SSH_PORT }}
+
+      - name: connect and pull
+        run: ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST_DEV }} "cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d && exit"
+
+      
