@@ -2,7 +2,7 @@ name: iStore API CI/CD
 
 on:
   push:
-    branches: [ "multi_store" ]
+    branches: [ "master" ]
   # pull_request:
   #   branches: [ "multi_store" ]
 
