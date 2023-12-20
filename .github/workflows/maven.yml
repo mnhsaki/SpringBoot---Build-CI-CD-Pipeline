@@ -62,5 +62,5 @@ jobs:
 
           script: |
               cd /opt/app/test-istore.iatlbd.com/my-erp-istore-api
-              docker-compose up mr-smithers-excellent/docker-build-push
+              docker-compose up -d
               exit
