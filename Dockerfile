@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM openjdk:1.8
 EXPOSE 8080
-ADD target/erp-istore-backend.jar erp-istore-backend.jar
-ENTRYPOINT ["java","-jar","/erp-istore-backend.jar"]
+ADD target/springboot-images-new.jar springboot-images-new.jar
+ENTRYPOINT ["java","-jar","/springboot-images-new.jar"]
